@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { AIProjectsClient } = require('@azure/ai-projects');
 const { DefaultAzureCredential } = require('@azure/identity');
@@ -72,8 +73,12 @@ Respond in the structured format as described.`;
 }
 
 async function runAgentConversation(prompt) {
+  const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"];
+  if (!connectionString) {
+    throw new Error("AZURE_AI_PROJECTS_CONNECTION_STRING must be set.");
+  }
   const client = AIProjectsClient.fromConnectionString(
-    "eastus2.api.azureml.ms;74255f3b-7032-489d-91fe-66dd653448f5;RU-A-Prod-KM-NLP-RG;juan_rojas-7820",
+    connectionString,
     new DefaultAzureCredential()
   );
 

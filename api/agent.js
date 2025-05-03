@@ -107,21 +107,6 @@ async function runAgentConversation(prompt) {
   return conversation;
 }
 
-module.exports = async (req, res) => {
-  if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Method not allowed' });
-    return;
-  }
-  const { insurance_pbm, preference, medication_class } = req.body;
-  if (!insurance_pbm || !preference || !medication_class) {
-    res.status(400).json({ error: 'Missing required fields: insurance_pbm, preference, medication_class' });
-    return;
-  }
-  try {
-    const prompt = buildAgentPrompt({ insurance_pbm, preference, medication_class });
-    const conversation = await runAgentConversation(prompt);
-    res.status(200).json({ conversation });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+module.exports = (req, res) => {
+  res.status(200).json({ message: "API is working" });
 }; 
