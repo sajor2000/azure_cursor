@@ -1,0 +1,55 @@
+<context>
+# Overview  
+Pulmonary Clinical Formulary Assistant is a web-based tool for nurses and clinicians to quickly determine insurance formulary coverage and requirements for respiratory medications (inhalers, nebulizers, etc). It leverages an Azure AI agent to match patient insurance, medication class, and preference (generic/brand) to the best formulary options, citing sources and providing alternatives and coverage notes. The tool is designed to streamline clinical workflows, reduce phone calls, and improve patient care.
+
+# Core Features  
+- Chat-based interface for nurses to enter insurance, preference, and medication class
+- Integration with Azure AI agent for real-time formulary recommendations
+- Source citation for every recommendation (document, memory, or external)
+- Display of primary and alternative medication options with coverage notes
+- Responsive, user-friendly UI styled like ChatGPT
+- Secure handling of patient and insurance data
+
+# User Experience  
+- User persona: Nurse or clinical staff member verifying inhaler coverage
+- Flow: Nurse enters insurance, preference, and medication class → submits → receives recommendations and coverage notes in chat
+- UI/UX: Simple, modern chat interface with clear instructions and error handling
+</context>
+<PRD>
+# Technical Architecture  
+- Frontend: Static HTML/CSS/JS (served from public/), chat UI
+- Backend: Serverless Node.js API (Vercel), integrates with Azure AI agent using @azure/ai-projects and @azure/identity
+- Data: No persistent storage; all queries are stateless and real-time
+- APIs: POST /api/agent for chat, Azure AI agent API for recommendations
+- Infrastructure: Deploy on Vercel, use Azure credentials via environment variables
+
+# Development Roadmap  
+- MVP:
+  - Static chat UI with input fields for insurance, preference, medication class
+  - Serverless API to validate input, build prompt, call Azure agent, and return response
+  - Display agent response in chat, including source citation and alternatives
+  - Error handling for missing fields and API errors
+- Future Enhancements:
+  - User authentication (optional)
+  - File upload for insurance documents
+  - Admin dashboard for usage analytics
+  - Support for additional medication classes and insurance plans
+
+# Logical Dependency Chain
+- Set up project structure and Vercel config
+- Build static frontend (public/index.html)
+- Implement serverless API (api/agent.js) with Azure integration
+- Connect frontend to API and test end-to-end flow
+- Polish UI/UX and add error handling
+- Prepare for deployment (vercel.json, environment variables)
+
+# Risks and Mitigations  
+- Azure API latency: Use loading indicators and timeouts
+- Credential management: Store secrets in Vercel environment variables
+- AI agent accuracy: Allow for user feedback and manual override in future
+- Compliance: Ensure no PHI is stored or logged
+
+# Appendix  
+- See Azure AI agent protocol and medication reference in codebase
+- Example user prompt: {"insurance_pbm": "Cigna", "preference": "Generic", "medication_class": "ICS"}
+</PRD> 
